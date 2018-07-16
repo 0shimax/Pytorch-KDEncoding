@@ -6,8 +6,8 @@ from torch.nn.parameter import Parameter
 
 
 def calculate_Encoding(pai, temperature):
-    o_hat = F.softmax(pai/temperature, dim=1)
-    _, indices = torch.max(o_hat, 1)
+    o_hat = F.softmax(pai/temperature, dim=2)
+    _, indices = torch.max(o_hat, 2)
     # o_one_hoet = torch.zeros_like(self.pai_concept)
     # o_one_hoet.scatter_(1, indices, 1)
     # with torch.no_grad():
@@ -25,7 +25,7 @@ class SimpleKDEncoding(nn.Module):
 
     def forward(self, voc_idxs, debug=False):
         out = []
-        for vi in voc_idxs:
+        for vi in torch.transpose(voc_idxs, 1, 0):
             o_enc_concept = calculate_Encoding(
                 self.pai_concept[vi], self.temperature)
             o_enc_character = calculate_Encoding(

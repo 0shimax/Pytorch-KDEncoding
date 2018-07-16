@@ -67,7 +67,7 @@ for epoch in range(300):
 
         # Step 1. Prepare the inputs to be passed to the model (i.e, turn the words
         # into integer indices and wrap them in tensors)
-        context_idxs = torch.LongTensor([word_to_ix[w] for w in context])
+        context_idxs = torch.LongTensor([[word_to_ix[w] for w in context]])
 
         # Step 2. Recall that torch *accumulates* gradients. Before passing in a
         # new instance, you need to zero out the gradients from the old
@@ -80,8 +80,7 @@ for epoch in range(300):
 
         # Step 4. Compute your loss function. (Again, Torch wants the target
         # word wrapped in a tensor)
-        loss = loss_function(
-            log_probs, torch.tensor([word_to_ix[target]], dtype=torch.long))
+        loss = loss_function(log_probs, torch.LongTensor([word_to_ix[target]]))
 
         # Step 5. Do the backward pass and update the gradient
         loss.backward()
@@ -93,5 +92,5 @@ for epoch in range(300):
 print(losses)  # The loss decreased every iteration over the training data!
 
 
-context_idxs = torch.LongTensor([word_to_ix[w] for w in ['made', 'make']])
+context_idxs = torch.LongTensor([[word_to_ix[w] for w in ['made', 'make']]])
 log_probs = model.kd_enc(context_idxs, debug=True)

@@ -33,4 +33,5 @@ class SimpleKDEncoding(nn.Module):
             out.append(o_enc_concept + o_enc_character)
             if debug:
                 print(o_enc_concept)
+                print(o_enc_character)
         return torch.stack(out, dim=0)

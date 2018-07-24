@@ -11,8 +11,8 @@ class NGramLanguageModeler(nn.Module):
         super().__init__()
 
         self.kd_enc = SimpleKDEncoding(
-            vocab_size, k_concept=4, k_character=5, D=32)
-        self.embeddings = nn.Linear(32, embedding_dim)
+            vocab_size, k_concept=2, k_character=2, D=4)
+        self.embeddings = nn.Linear(4, embedding_dim)
         # self.embeddings = nn.Embedding(vocab_size, embedding_dim)
         self.linear1 = nn.Linear(context_size * embedding_dim, 128)
         self.linear2 = nn.Linear(128, vocab_size)
@@ -55,6 +55,7 @@ print(trigrams[:3])
 
 vocab = set(test_sentence)
 word_to_ix = {word: i for i, word in enumerate(vocab)}
+print("voc size:", len(vocab))
 
 losses = []
 loss_function = nn.NLLLoss()
